@@ -1,0 +1,274 @@
+:root {
+	--clr-accent: hsl(140, 100%, 44%);
+	--clr-accent-a25: hsl(140, 100%, 44%, 0.25);
+	--clr-primary-light: #363636;
+	--clr-primary: #292929;
+	--clr-primary-dark: #242424;
+
+	--bg-primary: #292929;
+
+	--ff-family: "Montserrat", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+::selection {
+	background-color: var(--clr-accent);
+}
+
+body {
+	background-color: var(--bg-primary);
+	color: white;
+	font-family: var(--ff-family);
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+::-webkit-scrollbar {
+	width: 0.4em;
+}
+
+::-webkit-scrollbar-track {
+	background-color: var(--clr-primary-dark);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--clr-accent);
+}
+
+/* HEADER */
+
+.brand__text {
+	font-size: 4em;
+	letter-spacing: 0.25ch;
+	text-shadow: 2px 2px 0px var(--clr-accent);
+	transition: text-shadow 150ms ease-in-out;
+	cursor: default;
+}
+
+.brand__text:hover {
+	text-shadow: 5px 5px 0px var(--clr-accent);
+}
+
+/* TODO GENERAL */
+
+.todo__section {
+	width: max(60%, 300px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.todo__container {
+	width: 100%;
+}
+
+/* @media only screen and (min-width: 768px) {
+	.todo__section { 
+		width: 50%;
+	}
+} */
+
+/* TODO INPUT */
+.todo__form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.todo__input {
+	font-family: var(--ff-family);
+	background-color: transparent;
+	border: 1px solid var(--clr-primary-light);
+	padding: 0.5em;
+	color: white;
+	border-radius: 0.5em;
+	font-size: 1.25em;
+	outline: none;
+	transition: border-color 150ms, box-shadow 150ms ease;
+}
+
+.todo__input:focus {
+	border-color: var(--clr-accent);
+	box-shadow: 0 0 0 0.1em var(--clr-accent-a25);
+}
+
+.todo__btn {
+	background-color: transparent;
+	outline: none;
+	border: none;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	transition: transform 150ms ease-in-out;
+}
+
+.todo__btn:hover,
+.todo__btn:focus {
+	transform: scale(1.05);
+}
+
+.todo__btn:active {
+	transition-duration: 0ms;
+	transform: scale(1.1);
+}
+
+.todo__btn-icon {
+	fill: var(--clr-accent);
+	width: 3.5em;
+	height: 3.5em;
+}
+
+/* TODO LIST */
+
+.todo__list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.todo {
+	border-radius: 0.5em;
+	background-color: var(--clr-primary-light);
+	padding: 1em;
+	margin: 1em 0em;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	font-size: 1.2em;
+}
+
+.fade-in {
+	animation: fadeIn 150ms ease-in-out forwards;
+}
+
+.fade-out {
+	animation: fadeOut 150ms ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	to {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	to {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+.todo__icon {
+	margin: 0em 0.5em 0em 0em;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+}
+
+.todo__label {
+	display: flex;
+	cursor: pointer;
+	position: relative;
+}
+
+.todo__text {
+	position: relative;
+}
+
+.todo__text::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 2px;
+	background-color: currentColor;
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: transform 150ms ease-in-out;
+}
+
+.todo__checkbox {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	opacity: 0;
+	position: absolute;
+}
+
+.todo__checkbox:focus + label .todo__check {
+	transform: scale(1.1);
+}
+
+.todo__checkbox:checked + label .todo__text {
+	color: hsla(0, 0%, 100%, 0.5);
+}
+
+.todo__checkbox:checked + label .todo__text::after {
+	transform: scaleX(1);
+	transform-origin: left;
+}
+
+.todo__checkbox:checked + label .todo__check--blank {
+	display: none;
+}
+
+.todo__checkbox:not(:checked) + label .todo__check--blank {
+	display: block;
+}
+
+.todo__checkbox:checked + label .todo__check--checked {
+	display: block;
+}
+
+.todo__checkbox:not(:checked) + label .todo__check--checked {
+	display: none;
+}
+
+.todo__icon--delete {
+	margin-right: 0;
+	margin-left: auto;
+	visibility: hidden;
+	opacity: 0;
+	cursor: pointer;
+	transition: visibility 150ms, opacity 150ms ease;
+}
+
+.todo:hover .todo__icon--delete {
+	visibility: visible;
+	opacity: 1;
+}
+
+.todo__check {
+	fill: var(--clr-accent);
+	cursor: pointer;
+	user-select: none;
+	transition: transform 150ms ease-in-out;
+}
+
+.todo__delete {
+	fill: var(--clr-primary-dark);
+}
