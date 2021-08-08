@@ -27,10 +27,11 @@ body {
 	min-height: 100vh;
 	margin: 0;
 	padding: 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	display: grid;
+	/* align-items: center; */
+	justify-items: center;
+	grid-template-columns: 1fr 2fr;
+	grid-template-rows: 0.2fr 1fr;
 }
 
 ::-webkit-scrollbar {
@@ -47,6 +48,11 @@ body {
 
 /* HEADER */
 
+header {
+	grid-column: 1 / -1;
+	align-self: center;
+}
+
 .brand__text {
 	font-size: 4em;
 	letter-spacing: 0.25ch;
@@ -59,13 +65,26 @@ body {
 	text-shadow: 5px 5px 0px var(--clr-accent);
 }
 
+/* LISTS */
+
+.list__section {
+	grid-column: 1 / 2;
+	grid-row: 2 / 3;
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	flex-direction: column;
+}
+
 /* TODO GENERAL */
 
 .todo__section {
+	grid-column: 2 / 3;
+	grid-row: 2 / 3;
 	width: max(60%, 300px);
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: start;
 	flex-direction: column;
 }
 
