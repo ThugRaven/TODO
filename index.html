@@ -18,22 +18,23 @@
 			<h1 class="brand__text">Todo</h1>
 		</header>
 		<nav></nav>
-		<section class="list__section">
-			<form class="list__form">
+		<section class="lists__section">
+			<h2 class="lists__title">My lists</h2>
+			<form class="lists__form">
 				<input
 					type="text"
-					class="list__input"
+					class="lists__input"
 					placeholder="Add a list"
 					minlength="1"
 				/>
-				<button class="list__btn">
+				<button class="lists__btn">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						height="24px"
 						viewBox="0 0 24 24"
 						width="24px"
 						fill="#000000"
-						class="list__btn-icon"
+						class="lists__btn-icon"
 					>
 						<path d="M0 0h24v24H0z" fill="none" />
 						<path
@@ -43,12 +44,27 @@
 				</button>
 			</form>
 
-			<div class="list__container">
-				<ul class="list__list"></ul>
+			<div class="lists__container">
+				<ul class="lists__list"></ul>
 			</div>
 		</section>
 		<section class="todo__section">
-			<div class="todo__selected-list"></div>
+			<div class="list__heading">
+				<h2 class="list__title"></h2>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					height="24px"
+					viewBox="0 0 24 24"
+					width="24px"
+					fill="#000000"
+					class="list__delete"
+				>
+					<path d="M0 0h24v24H0V0z" fill="none" />
+					<path
+						d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"
+					/>
+				</svg>
+			</div>
 
 			<form class="todo__form">
 				<input
@@ -74,12 +90,16 @@
 				</button>
 			</form>
 
+			<div class="todo__empty">Add your first tasks!</div>
 			<div class="todo__container">
 				<ul class="todo__list"></ul>
 			</div>
 		</section>
 		<template id="list__template">
-			<li class="list">test</li>
+			<li class="list">
+				<span class="list__name"></span>
+				<span class="list__completion"></span>
+			</li>
 		</template>
 		<template id="todo__template">
 			<li class="todo">

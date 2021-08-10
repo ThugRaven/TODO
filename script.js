@@ -1,10 +1,12 @@
-const listInput = document.querySelector(".list__input");
+const listInput = document.querySelector(".lists__input");
 const todoInput = document.querySelector(".todo__input");
-const listBtn = document.querySelector(".list__btn");
+const listBtn = document.querySelector(".lists__btn");
 const todoBtn = document.querySelector(".todo__btn");
-const todoSelectedList = document.querySelector(".todo__selected-list");
+const todoSelectedList = document.querySelector(".list__title");
+const listDelete = document.querySelector(".list__delete");
+const todoEmpty = document.querySelector(".todo__empty");
 const todoList = document.querySelector(".todo__list");
-const todosList = document.querySelector(".list__list");
+const todosList = document.querySelector(".lists__list");
 const listTemplate = document.getElementById("list__template");
 const todoTemplate = document.getElementById("todo__template");
 
@@ -17,6 +19,15 @@ let todoAdded = false;
 
 listBtn.addEventListener("click", addList);
 todoBtn.addEventListener("click", addTodo);
+listDelete.addEventListener("click", () => {
+	if (confirm("Are you sure you want to delete this list?")) {
+		const index = todos.findIndex((list) => list.id === selectedListId);
+		todos.splice(index, 1);
+		selectedListId = todos[0].id;
+		save();
+		render();
+	}
+});
 
 function createList(name) {
 	return { id: Date.now().toString(), name: name, todos: [] };
@@ -28,12 +39,13 @@ function createTodo(text) {
 
 function addList(event) {
 	event.preventDefault();
-	const listValue = listInput.value;
+	const listValue = listInput.value.trim();
 	if (listValue == null || listValue === "") return;
 
 	const list = createList(listValue);
 	// todoAdded = true;
 	todos.push(list);
+	selectedListId = list.id;
 	save();
 	render();
 
@@ -42,7 +54,7 @@ function addList(event) {
 
 function addTodo(event) {
 	event.preventDefault();
-	const todoValue = todoInput.value;
+	const todoValue = todoInput.value.trim();
 	if (todoValue == null || todoValue === "") return;
 
 	const todo = createTodo(todoValue);
@@ -84,15 +96,28 @@ function renderLists() {
 
 		const listItem = newList.querySelector(".list");
 		listItem.dataset.id = list.id;
-		listItem.innerHTML = `${
-			list.todos.filter((todo) => todo.complete === true).length
-		}/${list.todos.length} ${list.name}`;
+		if (listItem.dataset.id === selectedListId) {
+			listItem.classList.add("list--active");
+		}
+
+		const listName = newList.querySelector(".list__name");
+		listName.innerHTML = list.name;
+
+		const listCompletion = newList.querySelector(".list__completion");
+		const completion = list.todos.filter(
+			(todo) => todo.complete === true
+		).length;
+		listCompletion.innerHTML = `${completion}/${list.todos.length}`;
+		if (completion === list.todos.length) {
+			listCompletion.classList.add("list__completion--completed");
+		}
 
 		listItem.addEventListener("click", (event) => {
-			if (event.target.dataset.id != null) {
-				selectedListId = event.target.dataset.id;
+			if (listItem.dataset.id != null) {
+				selectedListId = listItem.dataset.id;
 				save();
 				render();
+				console.log("test");
 			}
 		});
 
@@ -102,6 +127,11 @@ function renderLists() {
 
 function renderTodos(selectedList) {
 	todoSelectedList.innerHTML = selectedList.name;
+	if (selectedList.todos.length <= 0) {
+		todoEmpty.classList.add("todo__empty--visible");
+		return;
+	}
+	todoEmpty.classList.remove("todo__empty--visible");
 
 	selectedList.todos.forEach((todo, index) => {
 		const newTodo = document.importNode(todoTemplate.content, true);
@@ -119,6 +149,8 @@ function renderTodos(selectedList) {
 		todoCheckbox.addEventListener("change", () => {
 			selectedList.todos[index].complete = !selectedList.todos[index].complete;
 			save();
+			clearElements(todosList);
+			renderLists();
 		});
 
 		const deleteBtn = newTodo.querySelector(".todo__delete");
