@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		<header>
-			<h1 class="brand__text">Todo</h1>
+			<h1 class="todo__logo">Todo</h1>
 		</header>
 		<nav></nav>
 		<section class="lists__section">
@@ -26,6 +26,7 @@
 					class="lists__input"
 					placeholder="Add a list"
 					minlength="1"
+					maxlength="40"
 				/>
 				<button class="lists__btn">
 					<svg
@@ -51,19 +52,21 @@
 		<section class="todo__section">
 			<div class="list__heading">
 				<h2 class="list__title"></h2>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					height="24px"
-					viewBox="0 0 24 24"
-					width="24px"
-					fill="#000000"
-					class="list__delete"
-				>
-					<path d="M0 0h24v24H0V0z" fill="none" />
-					<path
-						d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"
-					/>
-				</svg>
+				<div class="list__icon">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						height="24px"
+						viewBox="0 0 24 24"
+						width="24px"
+						fill="#000000"
+						class="list__delete"
+					>
+						<path d="M0 0h24v24H0V0z" fill="none" />
+						<path
+							d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"
+						/>
+					</svg>
+				</div>
 			</div>
 
 			<form class="todo__form">
@@ -72,6 +75,7 @@
 					class="todo__input"
 					placeholder="Add a task"
 					minlength="1"
+					maxlength="200"
 				/>
 				<button class="todo__btn">
 					<svg
@@ -90,6 +94,7 @@
 				</button>
 			</form>
 
+			<div class="lists__empty">Add your first list!</div>
 			<div class="todo__empty">Add your first tasks!</div>
 			<div class="todo__container">
 				<ul class="todo__list"></ul>

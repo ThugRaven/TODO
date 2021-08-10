@@ -1,3 +1,4 @@
+const todoLogo = document.querySelector(".todo__logo");
 const listInput = document.querySelector(".lists__input");
 const todoInput = document.querySelector(".todo__input");
 const listBtn = document.querySelector(".lists__btn");
@@ -5,10 +6,14 @@ const todoBtn = document.querySelector(".todo__btn");
 const todoSelectedList = document.querySelector(".list__title");
 const listDelete = document.querySelector(".list__delete");
 const todoEmpty = document.querySelector(".todo__empty");
+const listsEmpty = document.querySelector(".lists__empty");
 const todoList = document.querySelector(".todo__list");
 const todosList = document.querySelector(".lists__list");
 const listTemplate = document.getElementById("list__template");
 const todoTemplate = document.getElementById("todo__template");
+
+const listHeading = document.querySelector(".list__heading");
+const todoForm = document.querySelector(".todo__form");
 
 const LOCAL_STORAGE_TODOS_KEY = "todo.list";
 const LOCAL_STORAGE_TODOS_LIST_ID_KEY = "todo.list_id";
@@ -17,13 +22,16 @@ let todos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TODOS_KEY)) || [];
 let selectedListId = localStorage.getItem(LOCAL_STORAGE_TODOS_LIST_ID_KEY);
 let todoAdded = false;
 
+todoLogo.addEventListener("click", addTestData);
 listBtn.addEventListener("click", addList);
 todoBtn.addEventListener("click", addTodo);
 listDelete.addEventListener("click", () => {
 	if (confirm("Are you sure you want to delete this list?")) {
 		const index = todos.findIndex((list) => list.id === selectedListId);
 		todos.splice(index, 1);
-		selectedListId = todos[0].id;
+		if (todos.length > 0) {
+			selectedListId = todos[0].id;
+		}
 		save();
 		render();
 	}
@@ -35,6 +43,50 @@ function createList(name) {
 
 function createTodo(text) {
 	return { text: text, complete: false };
+}
+
+function addTestData() {
+	const data = [
+		{
+			id: Math.floor(Date.now().toString() * Math.random()).toString(),
+			name: "Yet",
+			todos: [
+				{ text: "My", complete: false },
+				{ text: "First", complete: false },
+				{ text: "Todo", complete: false },
+				{ text: "App", complete: false },
+			],
+		},
+		{
+			id: Math.floor(Date.now().toString() * Math.random()).toString(),
+			name: "Another",
+			todos: [
+				{ text: "First", complete: true },
+				{ text: "Second", complete: false },
+				{ text: "Third", complete: true },
+				{ text: "Fourth", complete: false },
+				{ text: "Fifth", complete: true },
+			],
+		},
+		{
+			id: Math.floor(Date.now().toString() * Math.random()).toString(),
+			name: "Todo",
+			todos: [
+				{ text: "All", complete: true },
+				{ text: "Tasks", complete: true },
+				{ text: "Done", complete: true },
+			],
+		},
+		{
+			id: Math.floor(Date.now().toString() * Math.random()).toString(),
+			name: "App",
+			todos: [],
+		},
+	];
+	todos.push(...data);
+	selectedListId = data[0].id;
+	save();
+	render();
 }
 
 function addList(event) {
@@ -77,8 +129,7 @@ function render() {
 
 	renderLists();
 	const selectedList = todos.find((list) => list.id === selectedListId);
-
-	if (selectedListId != null) {
+	if (selectedList != null) {
 		clearElements(todoList);
 		renderTodos(selectedList);
 	}
@@ -91,6 +142,17 @@ function clearElements(element) {
 }
 
 function renderLists() {
+	if (todos.length == 0) {
+		listsEmpty.dataset.hidden = false;
+		todoEmpty.dataset.hidden = true;
+		listHeading.dataset.hidden = true;
+		todoForm.dataset.hidden = true;
+		return;
+	}
+	listsEmpty.dataset.hidden = true;
+	listHeading.dataset.hidden = false;
+	todoForm.dataset.hidden = false;
+
 	todos.forEach((list) => {
 		const newList = document.importNode(listTemplate.content, true);
 
@@ -117,7 +179,6 @@ function renderLists() {
 				selectedListId = listItem.dataset.id;
 				save();
 				render();
-				console.log("test");
 			}
 		});
 
@@ -127,11 +188,11 @@ function renderLists() {
 
 function renderTodos(selectedList) {
 	todoSelectedList.innerHTML = selectedList.name;
-	if (selectedList.todos.length <= 0) {
-		todoEmpty.classList.add("todo__empty--visible");
+	if (todos.length > 0 && selectedList.todos.length == 0) {
+		todoEmpty.dataset.hidden = false;
 		return;
 	}
-	todoEmpty.classList.remove("todo__empty--visible");
+	todoEmpty.dataset.hidden = true;
 
 	selectedList.todos.forEach((todo, index) => {
 		const newTodo = document.importNode(todoTemplate.content, true);

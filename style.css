@@ -30,7 +30,13 @@ body {
 	display: grid;
 	justify-items: center;
 	grid-template-columns: 1fr 4fr;
-	grid-template-rows: 0.2fr 1fr;
+	grid-template-rows: 0.2fr auto 1fr;
+}
+
+@media only screen and (min-width: 768px) {
+	body {
+		grid-template-rows: 0.2fr 1fr;
+	}
 }
 
 ::-webkit-scrollbar {
@@ -48,11 +54,17 @@ body {
 /* HEADER */
 
 header {
-	grid-column: 2 / -1;
+	grid-column: 1 / -1;
 	align-self: center;
 }
 
-.brand__text {
+@media only screen and (min-width: 768px) {
+	header {
+		grid-column: 2 / -1;
+	}
+}
+
+.todo__logo {
 	font-size: 4em;
 	letter-spacing: 0.25ch;
 	text-shadow: 2px 2px 0px var(--clr-accent);
@@ -60,26 +72,32 @@ header {
 	cursor: default;
 }
 
-.brand__text:hover {
+.todo__logo:hover {
 	text-shadow: 5px 5px 0px var(--clr-accent);
 }
 
 /* LISTS */
 
 .lists__section {
-	grid-column: 1 / 2;
-	grid-row: 1 / 3;
+	grid-column: 1 / -1;
+	grid-row: 2 / 3;
 	display: flex;
 	justify-content: start;
 	flex-direction: column;
 	background-color: var(--clr-primary-dark);
 	width: 100%;
-	padding: 1em;
+}
+
+@media only screen and (min-width: 768px) {
+	.lists__section {
+		grid-column: 1 / 2;
+		grid-row: 1 / 3;
+	}
 }
 
 .lists__list {
 	list-style-type: none;
-	margin: 1em 0em;
+	margin: 0em;
 	padding: 0em;
 	font-weight: 500;
 	font-size: 1.25em;
@@ -90,6 +108,7 @@ header {
 	cursor: pointer;
 	font-variant-numeric: tabular-nums lining-nums;
 	display: flex;
+	align-items: center;
 	transition: background-color 150ms ease-in-out;
 }
 
@@ -99,6 +118,11 @@ header {
 
 .list:hover {
 	background-color: var(--clr-primary-light);
+}
+
+.list__name {
+	margin-right: 0.5em;
+	/* word-break: break-word; */
 }
 
 .list__completion {
@@ -128,8 +152,12 @@ header {
 	width: 100%;
 }
 
+.list__icon {
+	display: flex;
+	align-items: center;
+}
+
 .list__delete {
-	margin: 1em;
 	fill: var(--clr-accent);
 	cursor: pointer;
 }
@@ -139,36 +167,40 @@ header {
 	padding: 0;
 	margin: 0;
 	font-size: 2em;
+	width: 100%;
+	word-break: break-word;
+}
+
+.lists__title {
+	padding: 1rem;
 }
 
 /* TODO GENERAL */
 
 .todo__section {
-	grid-column: 2 / 3;
-	grid-row: 2 / 3;
+	grid-column: 1 / -1;
+	grid-row: 3 / 4;
 	width: 70%;
 	display: flex;
 	align-items: center;
 	justify-content: start;
 	flex-direction: column;
+	margin: 2em 0em;
 }
 
-/* @media only screen and (min-width: 768px) {
-	.todo__section { 
-		grid-column: 1 / -1;
+@media only screen and (min-width: 768px) {
+	.todo__section {
+		grid-column: 2 / 3;
+		grid-row: 2 / 3;
 	}
-} */
+}
 
-.todo__empty {
-	display: none;
+.todo__empty,
+.lists__empty {
 	font-weight: bold;
 	font-size: 2em;
 	text-align: center;
 	padding: 2em;
-}
-
-.todo__empty--visible {
-	display: block;
 }
 
 .todo__container {
@@ -183,6 +215,10 @@ header {
 	/* justify-content: center; */
 	padding: 1em 0em;
 	width: 100%;
+}
+
+.lists__form {
+	padding: 1em;
 }
 
 .todo__input,
@@ -300,6 +336,7 @@ header {
 
 .todo__text {
 	position: relative;
+	word-break: break-word;
 }
 
 .todo__text::after {
@@ -376,4 +413,8 @@ header {
 
 .todo__delete {
 	fill: var(--clr-primary-dark);
+}
+
+[data-hidden="true"] {
+	display: none;
 }
