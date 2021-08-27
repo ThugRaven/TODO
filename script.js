@@ -3,6 +3,7 @@ const listInput = document.querySelector(".lists__input");
 const todoInput = document.querySelector(".todo__input");
 const listBtn = document.querySelector(".lists__btn");
 const todoBtn = document.querySelector(".todo__btn");
+const upBtn = document.querySelector(".up-button");
 const todoSelectedList = document.querySelector(".list__title");
 const listDelete = document.querySelector(".list__delete");
 const todoEmpty = document.querySelector(".todo__empty");
@@ -25,6 +26,7 @@ let todoAdded = false;
 todoLogo.addEventListener("click", addTestData);
 listBtn.addEventListener("click", addList);
 todoBtn.addEventListener("click", addTodo);
+upBtn.addEventListener("click", goToTop);
 listDelete.addEventListener("click", () => {
 	if (confirm("Are you sure you want to delete this list?")) {
 		const index = todos.findIndex((list) => list.id === selectedListId);
@@ -34,6 +36,16 @@ listDelete.addEventListener("click", () => {
 		}
 		save();
 		render();
+	}
+});
+
+window.addEventListener("scroll", () => {
+	if (window.scrollY > 0) {
+		upBtn.classList.remove("fade-out");
+		upBtn.classList.add("fade-in");
+	} else {
+		upBtn.classList.remove("fade-in");
+		upBtn.classList.add("fade-out");
 	}
 });
 
@@ -117,6 +129,13 @@ function addTodo(event) {
 	render();
 
 	todoInput.value = "";
+}
+
+function goToTop() {
+	window.scrollTo({
+		top: 0,
+		behavior: "smooth",
+	});
 }
 
 function save() {
