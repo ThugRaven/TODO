@@ -148,8 +148,8 @@ function render() {
 
 	renderLists();
 	const selectedList = todos.find((list) => list.id === selectedListId);
+	clearElements(todoList);
 	if (selectedList != null) {
-		clearElements(todoList);
 		renderTodos(selectedList);
 	}
 }
